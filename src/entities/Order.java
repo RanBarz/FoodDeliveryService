@@ -31,6 +31,18 @@ public class Order implements Serializable, Comparable<Order>{
 		this.restaurant = restaurant;
 	}
 
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		if (other == this)
