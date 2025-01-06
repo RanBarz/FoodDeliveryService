@@ -58,5 +58,13 @@ public class OrderAccessObject implements DataAccessObject, Serializable{
 				str = o.toString();
 		return str;
 	}
+
+	@Override
+	public List<Integer> getAllIds() {
+		List<Integer> ids = new ArrayList<>();
+		for (Order o: orders)
+			ids.add(o.getId());
+		return null;
+	}
 	
 }
