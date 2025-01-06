@@ -4,13 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component("UI")
+@PropertySource("classpath:params.properties")
 public class UI {
 	
 	@Autowired
 	OrderHandler service;
+	
+	@Value("${hotDrinksMenu}")
+	private String HOT_DRINKS_MENU;
+	@Value("${coldDrinksMenu}")
+	private String COLD_DRINKS_MENU;
+	@Value("${mainDishesMenu}")
+	private String MAIN_DISHES_MENU;
+	@Value("${dessertsMenu}")
+	private String DESSERTS_MENU;
 	
     public void chicCafe() {
         Scanner scanner = new Scanner(System.in);      
@@ -29,7 +41,7 @@ public class UI {
             System.out.println("Press 4: Cancel an order");
             System.out.println("Press 5: View order details");
             System.out.println("Press 6: Prioritize orders");
-            System.out.println("Press 7: Exit");
+            System.out.println("Press 0: Exit");
 
             System.out.println("Please select a service:");
             int choice = scanner.nextInt();
@@ -91,7 +103,7 @@ public class UI {
 	                    	System.out.println(order);
 	                    break;
 	
-	                case 7:
+	                case 0:
 	                    System.out.println("Thank you for using Cafe Chic. Goodbye!");
 	                    using = false;
 	                    break;
@@ -104,30 +116,13 @@ public class UI {
         scanner.close(); 
     }
 
-    public static void viewMenu() {
-        System.out.println("\n-- Hot Drinks --");
-        System.out.println("1. Espresso - 10 ILS");
-        System.out.println("2. Artistic Latte - 15 ILS");
-        System.out.println("3. Green Tea with Mint - 12 ILS");
-        System.out.println("4. Hot Chocolate with Whipped Cream - 14 ILS");
+    public void viewMenu() {
+        System.out.printf(HOT_DRINKS_MENU);
 
-        System.out.println("\n-- Cold Drinks --");
-        System.out.println("5. Cold Lemonade with Mint - 12 ILS");
-        System.out.println("6. Vanilla Ice Coffee - 15 ILS");
-        System.out.println("7. Fresh Fruit Shake (Strawberry, Banana, Mango) - 18 ILS");
+        System.out.printf(COLD_DRINKS_MENU);
 
-        System.out.println("\n-- Main Dishes --");
-        System.out.println("8. Vegetable Quiche with Side Salad - 35 ILS");
-        System.out.println("9. Penne Pasta in Cream and Mushroom Sauce - 45 ILS");
-        System.out.println("10. Caesar Salad with Chicken - 40 ILS");
-        System.out.println("11. Goat Cheese Toast with Sun-Dried Tomatoes - 38 ILS");
-        System.out.println("12. Vegan Burger with Sweet Potato Fries - 48 ILS");
-        System.out.println("13. Spicy Shakshuka with Fresh Bread - 42 ILS");
-        System.out.println("14. Grilled Fish Fillet with Stir-Fried Vegetables - 55 ILS");
+        System.out.printf(MAIN_DISHES_MENU);
 
-        System.out.println("\n-- Desserts --");
-        System.out.println("15. Warm Butter Croissant - 12 ILS");
-        System.out.println("16. Belgian Chocolate Cake - 18 ILS");
-        System.out.println("17. Profiterole with Vanilla Cream - 22 ILS");
+        System.out.printf(DESSERTS_MENU);
     }
 }

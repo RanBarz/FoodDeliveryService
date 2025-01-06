@@ -12,6 +12,6 @@ public interface DataAccessObject {
 	
 	public String readOrder(int id);
 
-	public List<Integer> getAllIds();
+	public List<String> getAllOrders();
 		
 }

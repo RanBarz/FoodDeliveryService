@@ -1,9 +1,10 @@
 package services;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,35 @@ import org.springframework.stereotype.Component;
 public class FoodOrderHandler implements OrderHandler {
 	@Autowired
 	DataAccessObject dao;
+	
+	@PostConstruct
+	public void printExistingOrders(){
+		try {
+			List<String> orders = getAllOrders();
+			if(orders.size() > 0)
+				System.out.println("Here is a list of existing orders");
+			for (String order : orders) {
+				System.out.println(order);
+			}
+		} catch (Exception e) {
+			System.out.println("No existing orders");
+		}
+		
+	}
+	
+	@PreDestroy
+	public void printRemainingOrders() {
+		try {
+			List<String> orders = getAllOrders();
+			if(orders.size() > 0)
+				System.out.println("Here is a list of remaining orders");
+			for (String order : orders) {
+				System.out.println(order);
+			}
+		} catch (Exception e) {
+			System.out.println("No remaining orders");
+		}			
+	}
 	
 	public int createOrder(String restaurant, String[] dishes, String address) throws IOException{
 		int orderId = dao.createOrder(restaurant, dishes, address);
@@ -33,15 +63,11 @@ public class FoodOrderHandler implements OrderHandler {
 			throw new OrderNotFoundException(String.format("Order %d was not found :(", orderId));
 		return order;
 	}
+	
 	public List<String> getAllOrders() throws OrderNotFoundException, NoOrdersExsistException{
-		List<Integer> ids = dao.getAllIds();
-		if (ids.size() == 0)
+		List<String> orders = dao.getAllOrders();
+		if (orders.size() == 0)
 			throw new NoOrdersExsistException("No Orders Found :(");
-		Collections.sort(ids);
-		List<String> orders = new ArrayList<String>();
-		for (int id : ids) {
-			orders.add(readOrder(id));
-		}
 		return orders;
 	}
 	

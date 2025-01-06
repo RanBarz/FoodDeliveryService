@@ -1,24 +1,49 @@
 package services;
 
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 import entities.Order;
 
 @Component
+@PropertySource("classpath:params.properties")
 public class OrderAccessObject implements DataAccessObject, Serializable{
 	private static final long serialVersionUID = 1L;
+	
+	@Value("${path}")
+	private String PATH;
 	private List<Order> orders = new ArrayList<>();
 	
+	@PostConstruct
+	public void load() {
+		try { 
+			FileInputStream fileIn = new FileInputStream(PATH);
+    		GZIPInputStream gzipIn = new GZIPInputStream(fileIn);
+    		ObjectInputStream in = new ObjectInputStream(gzipIn); 
+	        OrderAccessObject loadedObject = (OrderAccessObject) in.readObject();
+	        in.close();
+	        orders = loadedObject.orders;
+		} catch (IOException | ClassNotFoundException e) {
+	         System.out.println("No previous file of orders exists");
+	    }
+	}
+	
 	public void save() throws IOException {
-		FileOutputStream fileOut = new FileOutputStream("Data.ser.gz");
+		FileOutputStream fileOut = new FileOutputStream(PATH);
 		GZIPOutputStream gzipOut = new GZIPOutputStream(fileOut);
 		ObjectOutputStream out = new ObjectOutputStream(gzipOut); 
         out.writeObject(this);
@@ -64,11 +89,11 @@ public class OrderAccessObject implements DataAccessObject, Serializable{
 	}
 
 	@Override
-	public List<Integer> getAllIds() {
-		List<Integer> ids = new ArrayList<>();
+	public List<String> getAllOrders() {
+		List<String> ordersDetail = new ArrayList<>();
 		for (Order o: orders)
-			ids.add(o.getId());
-		return ids;
+			ordersDetail.add(o.toString());
+		return ordersDetail;
 	}
 	
 }

@@ -2,6 +2,7 @@ package entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Order implements Serializable, Comparable<Order>{
@@ -15,6 +16,7 @@ public class Order implements Serializable, Comparable<Order>{
 	public Order(String restaurant, String[] dishes, String address) {
 		this.restaurant = restaurant;
 		this.dishes = new ArrayList<>();
+		Collections.addAll(this.dishes, dishes);
 		this.address = address;
 		this.id = counter++;
 	}
@@ -70,7 +72,7 @@ public class Order implements Serializable, Comparable<Order>{
 	public int compareTo(Order o) {
 		if (o == null)
 			throw new IllegalArgumentException();
-		return dishes.size() - o.dishes.size();
+		return o.dishes.size() - dishes.size();
 	}
 	
 	
