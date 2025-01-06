@@ -12,5 +12,5 @@ public interface OrderHandler {
 	
 	public String readOrder(int id) throws OrderNotFoundException ;
 	
-	public List<String> GetAllOrders() throws OrderNotFoundException, NoOrdersExsistException;
+	public List<String> getAllOrders() throws OrderNotFoundException, NoOrdersExsistException;
 }

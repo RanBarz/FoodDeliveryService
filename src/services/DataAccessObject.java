@@ -3,9 +3,6 @@ package services;
 import java.io.IOException;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public interface DataAccessObject {
 	public int createOrder(String restaurant, String[] dishes, String address) throws IOException;
 	

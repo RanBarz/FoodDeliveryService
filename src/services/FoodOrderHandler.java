@@ -2,19 +2,13 @@ package services;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
-@Component("OrderService")
-// CRUD service
+@Component()
 public class FoodOrderHandler implements OrderHandler {
 	@Autowired
 	DataAccessObject dao;
@@ -39,7 +33,7 @@ public class FoodOrderHandler implements OrderHandler {
 			throw new OrderNotFoundException(String.format("Order %d was not found :(", orderId));
 		return order;
 	}
-	public List<String> GetAllOrders() throws OrderNotFoundException, NoOrdersExsistException{
+	public List<String> getAllOrders() throws OrderNotFoundException, NoOrdersExsistException{
 		List<Integer> ids = dao.getAllIds();
 		if (ids.size() == 0)
 			throw new NoOrdersExsistException("No Orders Found :(");

@@ -6,7 +6,7 @@ import java.util.Scanner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+@Component("UI")
 public class UI {
 	
 	@Autowired
@@ -43,21 +43,22 @@ public class UI {
 	                    System.out.println("Would you like to order, enter yes/no");
 	                    String input = scanner.nextLine();
 	                    if (input.equals("no"))
-	                        break;
-	
+	                        break;	
 	                case 2:
 	                    System.out.println("Please enter an order");
-	                    System.out.println("if you finish enter end");
+	                    System.out.println("If you finish enter end");
 	                    String dish = scanner.nextLine();
 	                    
-	                    while(!input.equals("end")) {
+	                    while(!dish.equals("end")) {
 	                    	dishes.add(dish);
 	                    	dish = scanner.nextLine();
 	                    }
 	                    System.out.println("Please enter an address");
 	                    address = scanner.nextLine();
+	                    
+	                    String[] dishesArr = dishes.toArray(new String[0]);
 	
-	                    int orderId = service.createOrder( "Cafe Chic",(String[]) dishes.toArray(), address);
+	                    int orderId = service.createOrder( "Cafe Chic", dishesArr, address);
 	                    System.out.println("Your order has been placed! Order ID: " + orderId);
 	                    break;
 	
@@ -85,15 +86,15 @@ public class UI {
 	                    break;
 	
 	                case 6:
-	                    service.
+	                    List<String> orders = service.getAllOrders();
+	                    for (String order: orders)
+	                    	System.out.println(order);
 	                    break;
 	
 	                case 7:
 	                    System.out.println("Thank you for using Cafe Chic. Goodbye!");
 	                    using = false;
 	                    break;
-	                default:
-	                    System.out.println("Invalid choice. Please try again.");
 	            }
             }
             catch(Exception e){
