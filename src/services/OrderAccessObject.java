@@ -7,12 +7,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.GZIPOutputStream;
-
-import org.springframework.stereotype.Component;
-
 import entities.Order;
 
-@Component
 public class OrderAccessObject implements DataAccessObject, Serializable{
 	private static final long serialVersionUID = 1L;
 	private List<Order> orders = new ArrayList<>();
@@ -52,8 +48,6 @@ public class OrderAccessObject implements DataAccessObject, Serializable{
 				o.setAddress(address);
 		this.save();
 		return toUp == null;
-		
-		
 	}
 
 	@Override
