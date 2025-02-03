@@ -6,7 +6,7 @@ import java.util.List;
 public interface OrderHandler {
 	public int createOrder(String restaurant, String[] dishes, String address) throws IOException;
 	
-	public void deleteOrder(int orderId) throws IOException, OrderNotFoundException;
+	public void deleteOrder(int orderId) throws Exception;
 	
 	public void updateOrder(int orderId, String address) throws IOException, OrderNotFoundException;
 	

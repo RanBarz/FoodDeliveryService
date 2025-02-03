@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component()
 public class FoodOrderHandler implements OrderHandler {
 	@Autowired
-	DataAccessObject dao;
+	private DataAccessObject dao;
 	
 	@PostConstruct
 	public void printExistingOrders(){
@@ -47,7 +47,7 @@ public class FoodOrderHandler implements OrderHandler {
 		int orderId = dao.createOrder(restaurant, dishes, address);
 		return orderId;
 	}
-	public void deleteOrder(int orderId) throws IOException, OrderNotFoundException{
+	public void deleteOrder(int orderId) throws Exception{
 		
 		if(!dao.deleteOrder(orderId))
 			throw new OrderNotFoundException(String.format("Order %d was not found :(", orderId));

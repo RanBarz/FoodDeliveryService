@@ -1,5 +1,6 @@
 package services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class UI {
 	
 	@Autowired
-	OrderHandler service;
+	private OrderHandler service;
 	
 	@Value("${hotDrinksMenu}")
 	private String HOT_DRINKS_MENU;
@@ -57,21 +58,7 @@ public class UI {
 	                    if (input.equals("no"))
 	                        break;	
 	                case 2:
-	                    System.out.println("Please enter an order");
-	                    System.out.println("If you finish enter end");
-	                    String dish = scanner.nextLine();
-	                    
-	                    while(!dish.equals("end")) {
-	                    	dishes.add(dish);
-	                    	dish = scanner.nextLine();
-	                    }
-	                    System.out.println("Please enter an address");
-	                    address = scanner.nextLine();
-	                    
-	                    String[] dishesArr = dishes.toArray(new String[0]);
-	
-	                    int orderId = service.createOrder( "Cafe Chic", dishesArr, address);
-	                    System.out.println("Your order has been placed! Order ID: " + orderId);
+	                	getOrderFromUser(scanner, dishes);
 	                    break;
 	
 	                case 3:
@@ -110,11 +97,30 @@ public class UI {
 	            }
             }
             catch(Exception e){
-            	 System.out.println("Invalid choice. Please try again.");
+            	 System.out.println(e.getMessage());
             }
         }
         scanner.close(); 
     }
+
+	private void getOrderFromUser(Scanner scanner, List<String> dishes) throws IOException {
+		String address;
+		System.out.println("Please enter an order");
+		System.out.println("If you finish enter end");
+		String dish = scanner.nextLine();
+		
+		while(!dish.equals("end")) {
+			dishes.add(dish);
+			dish = scanner.nextLine();
+		}
+		System.out.println("Please enter an address");
+		address = scanner.nextLine();
+		
+		String[] dishesArr = dishes.toArray(new String[0]);
+
+		int orderId = service.createOrder( "Cafe Chic", dishesArr, address);
+		System.out.println("Your order has been placed! Order ID: " + orderId);
+	}
 
     public void viewMenu() {
         System.out.printf(HOT_DRINKS_MENU);
