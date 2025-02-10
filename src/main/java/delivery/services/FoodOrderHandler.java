@@ -1,4 +1,4 @@
-package services;
+package delivery.services;
 
 import java.io.IOException;
 import java.util.List;
@@ -8,6 +8,8 @@ import javax.annotation.PreDestroy;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import delivery.exceptions.*;
 
 @Component()
 public class FoodOrderHandler implements OrderHandler {
@@ -57,6 +59,7 @@ public class FoodOrderHandler implements OrderHandler {
 		if(!dao.updateOrder(orderId, address))
 			throw new OrderNotFoundException(String.format("Order %d was not found :(", orderId));
 	}
+	
 	public String readOrder(int orderId) throws OrderNotFoundException {
 		String order = dao.readOrder(orderId);
 		if(order == null)
