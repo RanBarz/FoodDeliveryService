@@ -1,4 +1,4 @@
-package delivery.controllers;
+/*package delivery.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,10 +17,8 @@ public class LoginController {
 
     // Handle login logic without session
     @PostMapping("/login")
-    public ModelAndView handleLogin(
-            @RequestParam("username") String username,
-            @RequestParam("password") String password) {
-
+    public ModelAndView handleLogin(@RequestParam("username") String username, 
+                                    @RequestParam("password") String password) {
         // Dummy authentication (Replace with real authentication)
         if ("admin".equals(username) && "password".equals(password)) {
             return new ModelAndView("redirect:/dashboard"); // Redirect to success page
@@ -31,3 +29,4 @@ public class LoginController {
         }
     }
 }
+*/

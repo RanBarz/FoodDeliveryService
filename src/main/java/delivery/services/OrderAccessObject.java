@@ -66,7 +66,7 @@ public class OrderAccessObject implements DataAccessObject, Serializable{
 				toDel = o;
 		orders.remove(toDel);
 		this.save();
-		return toDel == null;
+		return toDel != null;
 	}
 
 	@Override
@@ -80,19 +80,18 @@ public class OrderAccessObject implements DataAccessObject, Serializable{
 	}
 
 	@Override
-	public String readOrder(int id) {
-		String str = null;
+	public Order readOrder(int id) {
 		for (Order o: orders)
 			if (o.getId() == id)
-				str = o.toString();
-		return str;
+				return o;
+		return null;
 	}
 
 	@Override
-	public List<String> getAllOrders() {
-		List<String> ordersDetail = new ArrayList<>();
+	public List<Order> getAllOrders() {
+		List<Order> ordersDetail = new ArrayList<>();
 		for (Order o: orders)
-			ordersDetail.add(o.toString());
+			ordersDetail.add(o);
 		return ordersDetail;
 	}
 	

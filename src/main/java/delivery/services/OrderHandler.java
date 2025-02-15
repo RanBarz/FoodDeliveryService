@@ -3,6 +3,7 @@ package delivery.services;
 import java.io.IOException;
 import java.util.List;
 
+import delivery.entities.Order;
 import delivery.exceptions.*;
 
 public interface OrderHandler {
@@ -12,7 +13,7 @@ public interface OrderHandler {
 	
 	public void updateOrder(int orderId, String address) throws IOException, OrderNotFoundException;
 	
-	public String readOrder(int id) throws OrderNotFoundException ;
+	public Order readOrder(int id) throws OrderNotFoundException ;
 	
-	public List<String> getAllOrders() throws OrderNotFoundException, NoOrdersExsistException;
+	public List<Order> getAllOrders() throws OrderNotFoundException, NoOrdersExsistException;
 }

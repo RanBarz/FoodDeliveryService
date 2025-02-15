@@ -9,6 +9,7 @@ import javax.annotation.PreDestroy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import delivery.entities.Order;
 import delivery.exceptions.*;
 
 @Component()
@@ -19,10 +20,10 @@ public class FoodOrderHandler implements OrderHandler {
 	@PostConstruct
 	public void printExistingOrders(){
 		try {
-			List<String> orders = getAllOrders();
+			List<Order> orders = getAllOrders();
 			if(orders.size() > 0)
 				System.out.println("Here is a list of existing orders");
-			for (String order : orders) {
+			for (Order order : orders) {
 				System.out.println(order);
 			}
 		} catch (Exception e) {
@@ -34,10 +35,10 @@ public class FoodOrderHandler implements OrderHandler {
 	@PreDestroy
 	public void printRemainingOrders() {
 		try {
-			List<String> orders = getAllOrders();
+			List<Order> orders = getAllOrders();
 			if(orders.size() > 0)
 				System.out.println("Here is a list of remaining orders");
-			for (String order : orders) {
+			for (Order order : orders) {
 				System.out.println(order);
 			}
 		} catch (Exception e) {
@@ -60,15 +61,15 @@ public class FoodOrderHandler implements OrderHandler {
 			throw new OrderNotFoundException(String.format("Order %d was not found :(", orderId));
 	}
 	
-	public String readOrder(int orderId) throws OrderNotFoundException {
-		String order = dao.readOrder(orderId);
+	public Order readOrder(int orderId) throws OrderNotFoundException {
+		Order order = dao.readOrder(orderId);
 		if(order == null)
 			throw new OrderNotFoundException(String.format("Order %d was not found :(", orderId));
 		return order;
 	}
 	
-	public List<String> getAllOrders() throws OrderNotFoundException, NoOrdersExsistException{
-		List<String> orders = dao.getAllOrders();
+	public List<Order> getAllOrders() throws OrderNotFoundException, NoOrdersExsistException{
+		List<Order> orders = dao.getAllOrders();
 		if (orders.size() == 0)
 			throw new NoOrdersExsistException("No Orders Found :(");
 		return orders;

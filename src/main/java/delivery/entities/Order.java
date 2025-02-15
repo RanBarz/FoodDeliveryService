@@ -25,6 +25,18 @@ public class Order implements Serializable, Comparable<Order>{
 		dishes.add(dish);
 	}
 
+	public List<String> getDishes() {
+		return dishes;
+	}
+
+	public void setDishes(List<String> dishes) {
+		this.dishes = dishes;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
 	public String getRestaurant() {
 		return restaurant;
 	}
