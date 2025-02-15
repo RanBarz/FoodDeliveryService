@@ -7,18 +7,17 @@ import java.util.List;
 
 public class Order implements Serializable, Comparable<Order>{
 	private static final long serialVersionUID = 1L;
-	private static int counter = 0;
 	private int id;
 	private List<String> dishes;
 	private String restaurant;
 	private String address;
 	
-	public Order(String restaurant, String[] dishes, String address) {
+	public Order(String restaurant, String[] dishes, String address, int id) {
 		this.restaurant = restaurant;
 		this.dishes = new ArrayList<>();
 		Collections.addAll(this.dishes, dishes);
 		this.address = address;
-		this.id = counter++;
+		this.id = id;
 	}
 	
 	public void addDish(String dish) {

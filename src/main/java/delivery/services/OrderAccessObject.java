@@ -27,6 +27,7 @@ public class OrderAccessObject implements DataAccessObject, Serializable{
 	@Value("${path}")
 	private String PATH;
 	private List<Order> orders = new ArrayList<>();
+	private int counter;
 	
 	@PostConstruct
 	public void load() {
@@ -37,6 +38,7 @@ public class OrderAccessObject implements DataAccessObject, Serializable{
 	        OrderAccessObject loadedObject = (OrderAccessObject) in.readObject();
 	        in.close();
 	        orders = loadedObject.orders;
+	        counter = loadedObject.counter;
 		} catch (IOException | ClassNotFoundException e) {
 	         System.out.println("No previous file of orders exists");
 	    }
@@ -52,7 +54,7 @@ public class OrderAccessObject implements DataAccessObject, Serializable{
 	
 	@Override
 	public int createOrder(String restaurant, String[] dishes, String address) throws IOException {
-			Order o = new Order(restaurant, dishes, address);
+			Order o = new Order(restaurant, dishes, address, counter++);
 			orders.add(o);
 			this.save();
 			return o.getId();
