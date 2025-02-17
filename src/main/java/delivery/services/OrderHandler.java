@@ -7,7 +7,7 @@ import delivery.entities.Order;
 import delivery.exceptions.*;
 
 public interface OrderHandler {
-	public int createOrder(String restaurant, String[] dishes, String address) throws IOException;
+	public int createOrder(Order order) throws IOException;
 	
 	public void deleteOrder(int orderId) throws Exception;
 	

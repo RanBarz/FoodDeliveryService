@@ -34,25 +34,15 @@ public class OrderController {
 
     // Show create order form
     @GetMapping("/create")
-    public String showCreateForm() {
-        return "createOrder";
+    public String showCreateForm(Model model) {
+        model.addAttribute("order", new Order()); // Binds empty Order object
+    	return "createOrder";
     }
 
-    // Handle order creation
     @PostMapping("/create")
-    public String createOrder(@RequestParam String restaurant,
-                            @RequestParam String dishes,
-                            @RequestParam String address,
-                            RedirectAttributes redirectAttributes) {
-        try {
-            String[] dishArray = dishes.split("\n");
-            int orderId = orderHandler.createOrder(restaurant, dishArray, address);
-            redirectAttributes.addFlashAttribute("message", 
-                "Order #" + orderId + " created successfully!");
-        } catch (IOException e) {
-            redirectAttributes.addFlashAttribute("error", 
-                "Error creating order: " + e.getMessage());
-        }
+    public String createOrder(@ModelAttribute Order order) throws IOException {
+        System.out.println("Order Created: " + order);
+        orderHandler.createOrder(order);
         return "redirect:/orders";
     }
 

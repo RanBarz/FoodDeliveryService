@@ -46,8 +46,8 @@ public class FoodOrderHandler implements OrderHandler {
 		}			
 	}
 	
-	public int createOrder(String restaurant, String[] dishes, String address) throws IOException{
-		int orderId = dao.createOrder(restaurant, dishes, address);
+	public int createOrder(Order order) throws IOException{
+		int orderId = dao.createOrder(order);
 		return orderId;
 	}
 	public void deleteOrder(int orderId) throws Exception{

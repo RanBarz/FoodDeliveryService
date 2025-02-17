@@ -20,6 +20,8 @@ public class Order implements Serializable, Comparable<Order>{
 		this.id = id;
 	}
 	
+	public Order() {}
+
 	public void addDish(String dish) {
 		dishes.add(dish);
 	}

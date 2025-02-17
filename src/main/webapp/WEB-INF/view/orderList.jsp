@@ -10,6 +10,21 @@
     <div class="container mt-4">
         <h2>Orders</h2>
 
+        <!-- Determine the image dynamically -->
+        <c:choose>
+            <c:when test="${empty orders}">
+                <c:set var="imageSrc" value="empty-orders.png" />
+            </c:when>
+            <c:otherwise>
+                <c:set var="imageSrc" value="orders-available.png" />
+            </c:otherwise>
+        </c:choose>
+
+        <!-- Display the selected image -->
+        <div class="text-center mb-3">
+            <img src="${pageContext.request.contextPath}/resources/images/${imageSrc}" alt="Orders Status" class="img-fluid" style="max-width: 400px;">
+        </div>
+
         <c:if test="${not empty message}">
             <div class="alert alert-success">${message}</div>
         </c:if>

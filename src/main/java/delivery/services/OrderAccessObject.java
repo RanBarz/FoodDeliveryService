@@ -53,8 +53,8 @@ public class OrderAccessObject implements DataAccessObject, Serializable{
 	}
 	
 	@Override
-	public int createOrder(String restaurant, String[] dishes, String address) throws IOException {
-			Order o = new Order(restaurant, dishes, address, counter++);
+	public int createOrder(Order o) throws IOException {
+		o.setId(counter);
 			orders.add(o);
 			this.save();
 			return o.getId();
