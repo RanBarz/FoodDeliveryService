@@ -19,7 +19,6 @@ import org.springframework.stereotype.Component;
 
 import delivery.entities.Order;
 
-@Component
 @PropertySource("classpath:params.properties")
 public class OrderAccessObject implements DataAccessObject, Serializable{
 	private static final long serialVersionUID = 1L;
@@ -54,10 +53,10 @@ public class OrderAccessObject implements DataAccessObject, Serializable{
 	
 	@Override
 	public int createOrder(Order o) throws IOException {
-		o.setId(counter);
-			orders.add(o);
-			this.save();
-			return o.getId();
+		o.setId(counter++);
+		orders.add(o);
+		this.save();
+		return o.getId();
 	}
 
 	@Override

@@ -36,7 +36,6 @@ public class RegisterController {
             return mav;
         }
 
-        // TODO: Save user to database (Add a UserService for actual registration logic)
         
         // Redirect to login page upon successful registration
         return new ModelAndView("redirect:/login");

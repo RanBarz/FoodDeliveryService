@@ -5,32 +5,38 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Order implements Serializable, Comparable<Order>{
-	private static final long serialVersionUID = 1L;
+import javax.persistence.*;
+
+@Entity
+@Table(name="orders")
+public class Order implements Comparable<Order>{	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id")
 	private int id;
-	private List<String> dishes;
+	
+	@Column(name = "Dishes")
+	private String dishes;
+	
+	@Column(name = "Restaurant")
 	private String restaurant;
+	
+	@Column(name = "Address")
 	private String address;
 	
-	public Order(String restaurant, String[] dishes, String address, int id) {
+	public Order(String restaurant, String dishes, String address) {
 		this.restaurant = restaurant;
-		this.dishes = new ArrayList<>();
-		Collections.addAll(this.dishes, dishes);
+		this.dishes = dishes;
 		this.address = address;
-		this.id = id;
 	}
 	
 	public Order() {}
 
-	public void addDish(String dish) {
-		dishes.add(dish);
-	}
-
-	public List<String> getDishes() {
+	public String getDishes() {
 		return dishes;
 	}
 
-	public void setDishes(List<String> dishes) {
+	public void setDishes(String dishes) {
 		this.dishes = dishes;
 	}
 
@@ -75,6 +81,7 @@ public class Order implements Serializable, Comparable<Order>{
 	@Override
 	public String toString() {
 		String str = "You ordered: ";
+		String[] dishes = this.dishes.split(" ");
 		for (String dish: dishes)
 			str += dish + ", ";
 		str += "from " + restaurant + " to address: " + address + ".";
@@ -85,7 +92,8 @@ public class Order implements Serializable, Comparable<Order>{
 	public int compareTo(Order o) {
 		if (o == null)
 			throw new IllegalArgumentException();
-		return o.dishes.size() - dishes.size();
+		String[] dishes = this.dishes.split(" ");
+		return o.dishes.length() - dishes.length;
 	}
 	
 	

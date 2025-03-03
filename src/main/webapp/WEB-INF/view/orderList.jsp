@@ -12,7 +12,7 @@
 
         <!-- Determine the image dynamically -->
         <c:choose>
-            <c:when test="${empty orders}">
+            <c:when test="${orders.size() < 3}">
                 <c:set var="imageSrc" value="empty-orders.png" />
             </c:when>
             <c:otherwise>

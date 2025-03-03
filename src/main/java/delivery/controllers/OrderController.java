@@ -12,7 +12,7 @@ import delivery.services.OrderHandler;
 import delivery.entities.Order;
 import delivery.exceptions.*;
 
-@Controller
+@RestController  // Changed from RestController to Controller for JSP views
 @RequestMapping("/orders")  // Base mapping for all order operations
 public class OrderController {
 
@@ -25,7 +25,7 @@ public class OrderController {
         try {
             model.addAttribute("orders", orderHandler.getAllOrders());
         } catch (NoOrdersExsistException e) {
-            model.addAttribute("message", "No orders yet. Create your first order!");
+        	return "redirect:/errors/no-orders-exist?message=" + e.getMessage();
         } catch (OrderNotFoundException e) {
             model.addAttribute("error", "Error loading orders: " + e.getMessage());
         }
@@ -40,10 +40,15 @@ public class OrderController {
     }
 
     @PostMapping("/create")
-    public String createOrder(@ModelAttribute Order order) throws IOException {
-        System.out.println("Order Created: " + order);
-        orderHandler.createOrder(order);
-        return "redirect:/orders";
+    public String createOrder(@ModelAttribute Order order, RedirectAttributes redirectAttributes) {
+        try {
+            System.out.println("Order Created: " + order);
+            orderHandler.createOrder(order);
+            redirectAttributes.addFlashAttribute("message", "Order created successfully");
+            return "redirect:/orders";
+        } catch (IOException e) {
+            return "redirect:/errors/io-error?message=" + e.getMessage();
+        }
     }
 
     @GetMapping("/{id}")
@@ -53,8 +58,7 @@ public class OrderController {
             model.addAttribute("order", order);
             return "viewOrder";
         } catch (OrderNotFoundException e) {
-            model.addAttribute("error", "Order not found");
-            return "viewOrder";
+            return "redirect:/errors/order-not-found?id=" + id;
         }
     }
     
@@ -66,8 +70,7 @@ public class OrderController {
             model.addAttribute("orderId", id);
             return "editOrder";
         } catch (OrderNotFoundException e) {
-            model.addAttribute("error", "Order not found");
-            return "redirect:/orders";
+            return "redirect:/errors/order-not-found?id=" + id;
         }
     }
     
@@ -79,9 +82,10 @@ public class OrderController {
             orderHandler.updateOrder(id, address);
             redirectAttributes.addFlashAttribute("message", "Order updated successfully");
             return "redirect:/orders";
-        } catch (IOException | OrderNotFoundException e) {
-            redirectAttributes.addFlashAttribute("error", "Error updating order: " + e.getMessage());
-            return "redirect:/orders/" + id + "/edit";
+        } catch (IOException e) {
+            return "redirect:/errors/io-error?message=" + e.getMessage();
+        } catch (OrderNotFoundException e) {
+            return "redirect:/errors/order-not-found?id=" + id;
         }
     }
     
@@ -91,9 +95,12 @@ public class OrderController {
             orderHandler.deleteOrder(id);
             redirectAttributes.addFlashAttribute("message", "Order deleted successfully");
             return "redirect:/orders";
+        } catch (IOException e) {
+            return "redirect:/errors/io-error?message=" + e.getMessage();
+        } catch (OrderNotFoundException e) {
+            return "redirect:/errors/order-not-found?id=" + id;
         } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Error deleting order: " + e.getMessage());
-            return "redirect:/orders";
+            return "redirect:/errors/general-error?message=" + e.getMessage();
         }
     }
 }
